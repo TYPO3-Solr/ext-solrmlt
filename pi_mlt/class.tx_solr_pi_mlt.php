@@ -38,6 +38,7 @@ class tx_solr_pi_mlt extends tx_solr_pluginbase_PluginBase {
 	 */
 	public $scriptRelPath = 'pi_mlt/class.tx_solr_pi_mlt.php';
 
+
 	/**
 	 * Creates a moreLikeThis query and returns the Apache_Solr_Response for the
 	 * query. The response is processed in the render method.
@@ -55,7 +56,9 @@ class tx_solr_pi_mlt extends tx_solr_pluginbase_PluginBase {
 			$this->cObj->data['pi_flexform'], 'maxItems'
 		));
 
-		return $response;
+		$actionResult = $this->renderResponse($response);
+
+		return $actionResult;
 	}
 
 	/**
@@ -130,7 +133,7 @@ class tx_solr_pi_mlt extends tx_solr_pluginbase_PluginBase {
 	 * @param	Apache_Solr_Response	$mltResults
 	 * @return	string	Rendered template
 	 */
-	protected function render(Apache_Solr_Response $mltResults) {
+	protected function renderResponse(Apache_Solr_Response $mltResults) {
 		$resultDocuments = array();
 
 		foreach ($mltResults->response->docs as $resultDocument) {
@@ -158,6 +161,16 @@ class tx_solr_pi_mlt extends tx_solr_pluginbase_PluginBase {
 		}
 
 		return $this->template->render();
+	}
+
+	/**
+	 * This method executes the requested commands and applies the changes to
+	 * the template.
+	 *
+	 * @return string $actionResult Rendered plugin content
+	 */
+	protected function render($actionResult) {
+		return $actionResult;
 	}
 
 	/**
