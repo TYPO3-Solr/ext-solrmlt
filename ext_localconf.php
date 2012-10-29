@@ -6,7 +6,7 @@ if (!defined ('TYPO3_MODE')) {
    # ----- # ----- # ----- # ----- # ----- # ----- # ----- # ----- # ----- #
 
 	// trigger loading of ext_autoload.php
-tx_solrgeo_ClassLoader::loadClasses();
+tx_solrmlt_ClassLoader::loadClasses();
 
    # ----- # ----- # ----- # ----- # ----- # ----- # ----- # ----- # ----- #
 
