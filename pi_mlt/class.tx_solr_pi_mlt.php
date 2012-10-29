@@ -73,12 +73,6 @@ class tx_solr_pi_mlt extends tx_solr_pluginbase_PluginBase {
 			$query->setUserAccessGroups(explode(',', $GLOBALS['TSFE']->gr_list));
 			$query->setSiteHashFilter(tx_solr_Site::getSiteByPageId($GLOBALS['TSFE']->id)->getDomain());
 
-			$language = 0;
-			if ($GLOBALS['TSFE']->sys_language_uid) {
-				$language = $GLOBALS['TSFE']->sys_language_uid;
-			}
-			$query->addFilter('language:' . $language);
-
 			$query->setQueryFields(array('id,title', 'score'));
 
 			$query->setSimilarityFields(t3lib_div::trimExplode(
