@@ -1,0 +1,13 @@
+
+plugin.tx_solr {
+
+	
+	templateFiles {
+		moreLikeThis = EXT:solrmlt/resources/templates/pi_mlt/mlt.htm
+	}
+
+	moreLikeThis {
+
+	}
+
+}

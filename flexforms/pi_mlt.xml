@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<T3DataStructure>
+	<meta>
+		<langDisable>1</langDisable>
+	</meta>
+	<sheets>
+		<sDEF>
+			<ROOT>
+				<TCEforms>
+					<sheetTitle>More Like This</sheetTitle>
+				</TCEforms>
+				<type>array</type>
+				<el>
+					<maxItems>
+						<TCEforms>
+							<label>Maximum number of items to display</label>
+							<config>
+								<type>input</type>
+								<eval>int+</eval>
+								<default>5</default>
+							</config>
+						</TCEforms>
+					</maxItems>
+					<similarityFields>
+						<TCEforms>
+							<label>Fields for finding related content</label>
+							<config>
+								<type>input</type>
+								<eval>trim</eval>
+								<default>title</default>
+							</config>
+						</TCEforms>
+					</similarityFields>
+				</el>
+			</ROOT>
+		</sDEF>
+		<sAdvanced>
+			<ROOT>
+				<TCEforms>
+					<sheetTitle>Advanced</sheetTitle>
+				</TCEforms>
+				<type>array</type>
+				<el>
+					<minTermFrequency>
+						<TCEforms>
+							<label>Minimum term frequency</label>
+							<config>
+								<type>input</type>
+								<eval>int+</eval>
+								<default>1</default>
+							</config>
+						</TCEforms>
+					</minTermFrequency>
+					<minDocumentFrequency>
+						<TCEforms>
+							<label>Minimum document frequency</label>
+							<config>
+								<type>input</type>
+								<eval>int+</eval>
+								<default>1</default>
+							</config>
+						</TCEforms>
+					</minDocumentFrequency>
+					<minWordLength>
+						<TCEforms>
+							<label>Minimum word length</label>
+							<config>
+								<type>input</type>
+								<eval>int+</eval>
+								<default>3</default>
+							</config>
+						</TCEforms>
+					</minWordLength>
+					<maxWordLength>
+						<TCEforms>
+							<label>Maximum word length</label>
+							<config>
+								<type>input</type>
+								<eval>int+</eval>
+								<default>15</default>
+							</config>
+						</TCEforms>
+					</maxWordLength>
+					<maxQueryTerms>
+						<TCEforms>
+							<label>Maximum query terms</label>
+							<config>
+								<type>input</type>
+								<eval>int+</eval>
+								<default>20</default>
+							</config>
+						</TCEforms>
+					</maxQueryTerms>
+				</el>
+			</ROOT>
+		</sAdvanced>
+	</sheets>
+</T3DataStructure>

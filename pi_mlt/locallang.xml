@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<T3locallang>
+	<meta type="array">
+		<type>module</type>
+		<description>Language labels for plugin &quot;tx_solr_pi_mlt&quot;</description>
+	</meta>
+	<data type="array">
+		<languageKey index="default" type="array">
+			<label index="key">Value</label>
+		</languageKey>
+		<languageKey index="fr" type="array">
+			<label index="key">Valeur</label>
+		</languageKey>
+	</data>
+</T3locallang>
