@@ -210,9 +210,3 @@ class tx_solr_pi_mlt extends PluginBase {
 	}
 }
 
-
-if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/solr/pi_mlt/class.tx_solr_pi_mlt.php'])	{
-	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/solr/pi_mlt/class.tx_solr_pi_mlt.php']);
-}
-
-?>
