@@ -22,6 +22,12 @@
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
+use ApacheSolrForTypo3\Solr\Plugin\PluginBase;
+use ApacheSolrForTypo3\Solr\Site;
+use ApacheSolrForTypo3\Solr\TemplateModifier;
+use ApacheSolrForTypo3\Solrmlt\MoreLikeThisQuery;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+
 
 /**
  * Plugin 'Solr Search' for the 'solr' extension.
@@ -31,7 +37,7 @@
  * @package	TYPO3
  * @subpackage	solr
  */
-class tx_solr_pi_mlt extends tx_solr_pluginbase_PluginBase {
+class tx_solr_pi_mlt extends PluginBase {
 
 	/**
 	 * Path to this script relative to the extension dir.
@@ -43,12 +49,12 @@ class tx_solr_pi_mlt extends tx_solr_pluginbase_PluginBase {
 	 * Creates a moreLikeThis query and returns the Apache_Solr_Response for the
 	 * query. The response is processed in the render method.
 	 *
-	 * @see	 classes/pluginbase/tx_solr_pluginbase_PluginBase#performAction()
+	 * @see classes/pluginbase/tx_solr_pluginbase_PluginBase#performAction()
 	 * @return	Apache_Solr_Response	The Solr server's response
 	 */
 	protected function performAction() {
 		$query = $this->getMoreLikeThisQuery();
-		/* @var $query tx_solr_MoreLikeThisQuery */
+		/* @var $query MoreLikeThisQuery */
 
 		$query->setQueryString($this->getMoreLikeThisIdString());
 
@@ -65,20 +71,20 @@ class tx_solr_pi_mlt extends tx_solr_pluginbase_PluginBase {
 	 * This method is used to create a moreLikeThis query and
 	 * initializes it with the needed values.
 	 *
-	 * @return tx_solr_MoreLikeThisQuery
+	 * @return MoreLikeThisQuery
 	 */
 	protected function getMoreLikeThisQuery() {
 		$query = NULL;
 
 		if ($this->solrAvailable) {
-			$query = t3lib_div::makeInstance('tx_solr_MoreLikeThisQuery');
+			$query = GeneralUtility::makeInstance('ApacheSolrForTypo3\Solrmlt\MoreLikeThisQuery');
 
 			$query->setUserAccessGroups(explode(',', $GLOBALS['TSFE']->gr_list));
-			$query->setSiteHashFilter(tx_solr_Site::getSiteByPageId($GLOBALS['TSFE']->id)->getDomain());
+			$query->setSiteHashFilter(Site::getSiteByPageId($GLOBALS['TSFE']->id)->getDomain());
 
 			$query->setQueryFields(array('id,title', 'score'));
 
-			$query->setSimilarityFields(t3lib_div::trimExplode(
+			$query->setSimilarityFields(GeneralUtility::trimExplode(
 				',',
 				$this->pi_getFFvalue(
 					$this->cObj->data['pi_flexform'], 'similarityFields'
@@ -152,9 +158,9 @@ class tx_solr_pi_mlt extends tx_solr_pluginbase_PluginBase {
 
 		if (is_array($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['solr']['pi_mlt']['renderTemplate'])) {
 			foreach ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['solr']['pi_mlt']['renderTemplate'] as $classReference) {
-				$templateModifier = &t3lib_div::getUserObj($classReference);
+				$templateModifier = &GeneralUtility::getUserObj($classReference);
 
-				if ($templateModifier instanceof tx_solr_TemplateModifier) {
+				if ($templateModifier instanceof TemplateModifier) {
 					$templateModifier->modifyTemplate($this->template);
 				}
 			}

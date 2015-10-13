@@ -1,4 +1,6 @@
 <?php
+namespace ApacheSolrForTypo3\Solrmlt;
+
 /***************************************************************
 *  Copyright notice
 *
@@ -22,15 +24,17 @@
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
+use ApacheSolrForTypo3\Solr\Query;
+
 
 /**
  * A query specialized to get documents similar to another
  *
- * @author	Ingo Renner <ingo@typo3.org>
- * @package	TYPO3
- * @subpackage	solr
+ * @author    Ingo Renner <ingo@typo3.org>
+ * @package    TYPO3
+ * @subpackage    solr
  */
-class tx_solr_MoreLikeThisQuery extends tx_solr_Query {
+class MoreLikeThisQuery extends Query {
 
 	protected $configuration;
 
@@ -47,7 +51,8 @@ class tx_solr_MoreLikeThisQuery extends tx_solr_Query {
 	protected $maximumQueryTerms        = 20;
 
 	/**
-	 * constructor for class tx_solr_MoreLikeThisQuery
+	 * Constructor
+	 *
 	 */
 	public function __construct() {
 		parent::__construct('');
@@ -109,7 +114,7 @@ class tx_solr_MoreLikeThisQuery extends tx_solr_Query {
 	}
 
 	public function setIncludeMatch($includeMatch) {
-		$this->includeMatch = (boolean) $includeMatch;
+		$this->includeMatch = (boolean)$includeMatch;
 	}
 
 	public function getInterestingTerms() {
@@ -182,10 +187,3 @@ class tx_solr_MoreLikeThisQuery extends tx_solr_Query {
 		}
 	}
 }
-
-
-if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/solr/classes/class.tx_solr_morelikethisquery.php'])	{
-	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/solr/classes/class.tx_solr_morelikethisquery.php']);
-}
-
-?>
