@@ -1,5 +1,5 @@
 <?php
-namespace ApacheSolrForTypo3\Solrmlt;
+namespace ApacheSolrForTypo3\Solrmlt\Query;
 
 /***************************************************************
 *  Copyright notice

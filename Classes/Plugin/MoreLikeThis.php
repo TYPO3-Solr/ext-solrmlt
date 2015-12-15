@@ -1,4 +1,7 @@
 <?php
+
+namespace ApacheSolrForTypo3\Solrmlt\Plugin;
+
 /***************************************************************
 *  Copyright notice
 *
@@ -37,12 +40,12 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  * @package	TYPO3
  * @subpackage	solr
  */
-class tx_solr_pi_mlt extends PluginBase {
+class MoreLikeThis extends PluginBase {
 
 	/**
 	 * Path to this script relative to the extension dir.
 	 */
-	public $scriptRelPath = 'pi_mlt/class.tx_solr_pi_mlt.php';
+	public $scriptRelPath = 'Classes/Plugin/MoreLikeThis.php';
 
 
 	/**
@@ -61,7 +64,6 @@ class tx_solr_pi_mlt extends PluginBase {
 		$response = $this->search->search($query, 0, $this->pi_getFFvalue(
 			$this->cObj->data['pi_flexform'], 'maxItems'
 		));
-
 		$actionResult = $this->renderResponse($response);
 
 		return $actionResult;
@@ -77,7 +79,7 @@ class tx_solr_pi_mlt extends PluginBase {
 		$query = NULL;
 
 		if ($this->solrAvailable) {
-			$query = GeneralUtility::makeInstance('ApacheSolrForTypo3\Solrmlt\MoreLikeThisQuery');
+			$query = GeneralUtility::makeInstance('ApacheSolrForTypo3\Solrmlt\Query\MoreLikeThisQuery');
 
 			$query->setUserAccessGroups(explode(',', $GLOBALS['TSFE']->gr_list));
 			$query->setSiteHashFilter(Site::getSiteByPageId($GLOBALS['TSFE']->id)->getDomain());
@@ -136,10 +138,10 @@ class tx_solr_pi_mlt extends PluginBase {
 	/**
 	 * Renders the Solr response into a template.
 	 *
-	 * @param	Apache_Solr_Response	$mltResults
+	 * @param	\Apache_Solr_Response	$mltResults
 	 * @return	string	Rendered template
 	 */
-	protected function renderResponse(Apache_Solr_Response $mltResults) {
+	protected function renderResponse(\Apache_Solr_Response $mltResults) {
 		$resultDocuments = array();
 
 		foreach ($mltResults->response->docs as $resultDocument) {

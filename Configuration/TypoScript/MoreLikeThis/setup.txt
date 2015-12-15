@@ -1,0 +1,11 @@
+plugin.tx_solrmlt_PiMoreLikeThis = USER
+plugin.tx_solrmlt_PiMoreLikeThis.userFunc = ApacheSolrForTypo3\Solrmlt\Plugin\MoreLikeThis->main
+tt_content.list.20.solr_pi_mlt =< plugin.tx_solrmlt_PiMoreLikeThis
+
+plugin.tx_solr {
+	templateFiles {
+		moreLikeThis = EXT:solrmlt/Resources/Private/Templates/mlt.htm
+	}
+	moreLikeThis {
+	}
+}
