@@ -7,7 +7,8 @@ $pluginCode = 'solr_pi_mlt';
         'LLL:EXT:solrmlt/Resources/Private/Language/locallang_db.xml:tt_content.list_type_pi_mlt',
         $pluginCode
     ),
-    'list_type'
+    'list_type',
+    'solrmlt'
 );
 $TCA['tt_content']['types']['list']['subtypes_excludelist'][$pluginCode] = 'layout,select_key,pages,recursive';
 $TCA['tt_content']['types']['list']['subtypes_addlist'][$pluginCode] = 'pi_flexform';
