@@ -28,7 +28,7 @@ namespace ApacheSolrForTypo3\Solrmlt\Plugin;
 use ApacheSolrForTypo3\Solr\Plugin\PluginBase;
 use ApacheSolrForTypo3\Solr\Site;
 use ApacheSolrForTypo3\Solr\TemplateModifier;
-use ApacheSolrForTypo3\Solrmlt\MoreLikeThisQuery;
+use ApacheSolrForTypo3\Solrmlt\Query\MoreLikeThisQuery;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
