@@ -31,6 +31,20 @@
 							</config>
 						</TCEforms>
 					</similarityFields>
+					<queryStringCreationType>
+						<TCEforms>
+							<label>Create the query string from</label>
+							<config>
+								<type>select</type>
+								<items type="array">
+									<numIndex index="0" type="array">
+										<numIndex index="0">Title of the current page</numIndex>
+										<numIndex index="1">pagetitle</numIndex>
+									</numIndex>
+								</items>
+							</config>
+						</TCEforms>
+					</queryStringCreationType>
 				</el>
 			</ROOT>
 		</sDEF>

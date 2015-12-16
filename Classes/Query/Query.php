@@ -24,16 +24,14 @@ namespace ApacheSolrForTypo3\Solrmlt\Query;
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
-use ApacheSolrForTypo3\Solr\Query;
+use ApacheSolrForTypo3\Solr\Query as SolrQuery;
 
 /**
  * A query specialized to get documents similar to another
  *
  * @author    Ingo Renner <ingo@typo3.org>
- * @package    TYPO3
- * @subpackage    solr
  */
-class MoreLikeThisQuery extends Query
+class Query extends SolrQuery
 {
 
     protected $configuration;
@@ -57,16 +55,26 @@ class MoreLikeThisQuery extends Query
     public function __construct()
     {
         parent::__construct('');
-
+            // todo, is this really needed? Because it is not used from outside, can we remove it?
         $this->configuration = $GLOBALS['TSFE']->tmpl->setup['plugin.']['tx_solr.']['moreLikeThis.'];
         $this->setQueryType('mlt');
     }
 
+    /**
+     * Used to build the query string for solr.
+     *
+     * @return string
+     */
     public function getQueryString()
     {
         return $this->queryString;
     }
 
+    /**
+     * Builds the additional query parameters "mlt.*" and retrieves them.
+     *
+     * @return array
+     */
     public function getQueryParameters()
     {
         $moreLikeThisParameters = array(
@@ -84,12 +92,18 @@ class MoreLikeThisQuery extends Query
         return array_merge($moreLikeThisParameters, $this->queryParameters);
     }
 
+    /**
+     * Returns the fields that are used for similarity
+     *
+     * @return array
+     */
     public function getSimilarityFields()
     {
         return $this->similarityfields;
     }
 
     /**
+     * Used to set the fields that are used for similarity "mlt.fl".
      *
      * @param array $similarityFields
      */
@@ -100,11 +114,21 @@ class MoreLikeThisQuery extends Query
         }
     }
 
+    /**
+     * Used to set the query fields that are used in "mlt.qf".
+     *
+     * @return array
+     */
     public function getQueryFields()
     {
         return $this->queryFields;
     }
 
+    /**
+     * Used to set the query fields that are used for "mlt.qf".
+     *
+     * @param array $queryFields
+     */
     public function setQueryFields(array $queryFields)
     {
         if (!empty($queryFields)) {
@@ -112,21 +136,49 @@ class MoreLikeThisQuery extends Query
         }
     }
 
+    /**
+     * Indicates if the match itself should be included or not.
+     * Used in "mlt.match.include".
+     *
+     * @return bool
+     */
     public function getIncludeMatch()
     {
         return $this->includeMatch;
     }
 
+    /**
+     * Used to configure if the match itself should be included or not.
+     * Used in "mlt.match.include"
+     *
+     * @param bool $includeMatch
+     */
     public function setIncludeMatch($includeMatch)
     {
         $this->includeMatch = (boolean)$includeMatch;
     }
 
+    /**
+     * One of: "list", "details", "none" -- this will show what "interesting" terms are used for the MoreLikeThis query.
+     * These are the top tf/idf terms. NOTE: if you select 'details', this shows you the term and boost
+     * used for each term. Unless mlt.boost=true all terms will have boost=1.0
+     *
+     * Used in "mlt.interestingTerms"
+     *
+     * @return string
+     */
     public function getInterestingTerms()
     {
         return $this->interestingTerms;
     }
 
+    /**
+     * One of: "list", "details", "none" -- this will show what "interesting" terms are used for the MoreLikeThis query.
+     * These are the top tf/idf terms. NOTE: if you select 'details', this shows you the term and boost
+     * used for each term. Unless mlt.boost=true all terms will have boost=1.0
+     *
+     * @param string $interestingTerms
+     */
     public function setInterestingTerms($interestingTerms)
     {
         if (in_array($interestingTerms, array('list', 'details', 'none'))) {
@@ -134,11 +186,25 @@ class MoreLikeThisQuery extends Query
         }
     }
 
+    /**
+     * Minimum Term Frequency - the frequency below which terms will be ignored in the source doc.
+     *
+     * Used to fill: 'mlt.mintf'
+     *
+     * @return int
+     */
     public function getMinimumTermFrequency()
     {
         return $this->minimumTermFrequency;
     }
 
+    /**
+     * Minimum Term Frequency - the frequency below which terms will be ignored in the source doc.
+     *
+     * Used to fill: 'mlt.mintf'
+     *
+     * @param int $minimumTermFrequency
+     */
     public function setMinimumTermFrequency($minimumTermFrequency)
     {
         $minimumTermFrequency = intval($minimumTermFrequency);
@@ -148,11 +214,27 @@ class MoreLikeThisQuery extends Query
         }
     }
 
+    /**
+     * Minimum Document Frequency - the frequency at which words will be ignored
+     * which do not occur in at least this many docs.
+     *
+     * Used to fill: 'mlt.mindf'
+     *
+     * @return int
+     */
     public function getMinimumDocumentFrequency()
     {
         return $this->minimumDocumentFrequency;
     }
 
+    /**
+     * Minimum Document Frequency - the frequency at which words will be ignored
+     * which do not occur in at least this many docs.
+     *
+     * Used to fill: 'mlt.mindf'
+     *
+     * @param int $minimumDocumentFrequency
+     */
     public function setMinimumDocumentFrequency($minimumDocumentFrequency)
     {
         $minimumDocumentFrequency = intval($minimumDocumentFrequency);
@@ -162,11 +244,25 @@ class MoreLikeThisQuery extends Query
         }
     }
 
+    /**
+     * Minimum word length below which words will be ignored.
+     *
+     * Used to fill: 'mlt.minwl'
+     *
+     * @return int
+     */
     public function getMinimumWordLength()
     {
         return $this->minimumWordLength;
     }
 
+    /**
+     * Minimum word length below which words will be ignored.
+     *
+     * Used to fill: 'mlt.minwl'
+     *
+     * @param int $minimumWordLength
+     */
     public function setMinimumWordLength($minimumWordLength)
     {
         $minimumWordLength = intval($minimumWordLength);
@@ -176,11 +272,23 @@ class MoreLikeThisQuery extends Query
         }
     }
 
+    /**
+     * Maximum word length above which words will be ignored.
+     *
+     * Used to fill: 'mlt.maxwl'
+     * @return int
+     */
     public function getMaximumWordLength()
     {
         return $this->maximumWordLength;
     }
 
+    /**
+     * Maximum word length above which words will be ignored.
+     *
+     * Used to fill: 'mlt.maxwl'
+     * @param int $maximumWordLength
+     */
     public function setMaximumWordLength($maximumWordLength)
     {
         $maximumWordLength = intval($maximumWordLength);
@@ -190,11 +298,25 @@ class MoreLikeThisQuery extends Query
         }
     }
 
+    /**
+     * Maximum number of query terms that will be included in any generated query.
+     *
+     * Used to fill: 'mlt.maxqt'
+     *
+     * @return int
+     */
     public function getMaximumQueryTerms()
     {
         return $this->maximumQueryTerms;
     }
 
+    /**
+     * Maximum number of query terms that will be included in any generated query.
+     *
+     * Used to fill: 'mlt.maxqt'
+     *
+     * @param int $maximumQueryTerms
+     */
     public function setMaximumQueryTerms($maximumQueryTerms)
     {
         $maximumQueryTerms = intval($maximumQueryTerms);
