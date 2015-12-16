@@ -1,11 +1,10 @@
 <?php
-
 namespace ApacheSolrForTypo3\Solrmlt\Plugin;
 
 /***************************************************************
 *  Copyright notice
 *
-*  (c) 2009-2012 Ingo Renner <ingo@typo3.org>
+*  (c) 2009-2015 Ingo Renner <ingo@typo3.org>
 *  All rights reserved
 *
 *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -34,10 +33,8 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 /**
  * Plugin 'Solr Search' for the 'solr' extension.
  *
- * @author	Ingo Renner <ingo@typo3.org>
- * @author	Timo Schmidt <timo.schmidt@aoemedia.de
- * @package	TYPO3
- * @subpackage	solr
+ * @author Ingo Renner <ingo@typo3.org>
+ * @author Timo Schmidt <timo.schmidt@aoemedia.de
  */
 class MoreLikeThis extends PluginBase
 {
@@ -53,7 +50,7 @@ class MoreLikeThis extends PluginBase
      * query. The response is processed in the render method.
      *
      * @see classes/pluginbase/tx_solr_pluginbase_PluginBase#performAction()
-     * @return	Apache_Solr_Response	The Solr server's response
+     * @return \Apache_Solr_Response The Solr server's response
      */
     protected function performAction()
     {
@@ -81,7 +78,7 @@ class MoreLikeThis extends PluginBase
         $query = null;
 
         if ($this->solrAvailable) {
-            $query = GeneralUtility::makeInstance('ApacheSolrForTypo3\Solrmlt\Query\MoreLikeThisQuery');
+            $query = GeneralUtility::makeInstance('ApacheSolrForTypo3\\Solrmlt\\Query\\MoreLikeThisQuery');
 
             $query->setUserAccessGroups(explode(',', $GLOBALS['TSFE']->gr_list));
             $query->setSiteHashFilter(Site::getSiteByPageId($GLOBALS['TSFE']->id)->getDomain());
@@ -111,6 +108,7 @@ class MoreLikeThis extends PluginBase
                 $this->cObj->data['pi_flexform'], 'maxQueryTerms', 'sAdvanced'
             ));
         }
+
         return $query;
     }
 
@@ -141,8 +139,8 @@ class MoreLikeThis extends PluginBase
     /**
      * Renders the Solr response into a template.
      *
-     * @param	\Apache_Solr_Response	$mltResults
-     * @return	string	Rendered template
+     * @param \Apache_Solr_Response $mltResults
+     * @return string Rendered template
      */
     protected function renderResponse(\Apache_Solr_Response $mltResults)
     {
@@ -152,7 +150,7 @@ class MoreLikeThis extends PluginBase
             $temporaryResultDocument = array();
             $availableFields = $resultDocument->getFieldNames();
 
-                // TODO refactor: Move tx_solr_pi_results_ResultsCommand::processDocumentFieldsToArray() to a util class
+            // TODO refactor: Move tx_solr_pi_results_ResultsCommand::processDocumentFieldsToArray() to a util class
             foreach ($availableFields as $fieldName) {
                 $temporaryResultDocument[$fieldName] = $resultDocument->{$fieldName};
             }
@@ -179,7 +177,8 @@ class MoreLikeThis extends PluginBase
      * This method executes the requested commands and applies the changes to
      * the template.
      *
-     * @return string $actionResult Rendered plugin content
+     * @param string $actionResult
+     * @return string Rendered plugin content
      */
     protected function render($actionResult)
     {
@@ -187,9 +186,9 @@ class MoreLikeThis extends PluginBase
     }
 
     /**
-     * Returns the key which is used to read the templatefile from the typoscript setup.
+     * Returns the key which is used to read the template file from the typoscript setup.
      *
-     * @see classes/pibase/tx_solr_pibase#getTemplateFileKey()
+     * @see \ApacheSolrForTypo3\Solr\Plugin\PluginBase#getTemplateFileKey()
      * @return string
      */
     protected function getTemplateFileKey()
@@ -200,7 +199,7 @@ class MoreLikeThis extends PluginBase
     /**
      * Returns the plugin key. Used in several base methods.
      *
-     * @see classes/pibase/tx_solr_pibase#getPluginKey()
+     * @see \ApacheSolrForTypo3\Solr\Plugin\PluginBase#getPluginKey()
      * @return string
      */
     protected function getPluginKey()
@@ -211,7 +210,7 @@ class MoreLikeThis extends PluginBase
     /**
      * Returns the main subpart to work on.
      *
-     * @see classes/pibase/tx_solr_pibase#getSubpart()
+     * @see \ApacheSolrForTypo3\Solr\Plugin\PluginBase#getSubpart()
      * @return string
      */
     protected function getSubpart()

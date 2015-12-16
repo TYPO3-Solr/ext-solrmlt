@@ -84,10 +84,6 @@ class MoreLikeThisQuery extends Query
         return array_merge($moreLikeThisParameters, $this->queryParameters);
     }
 
-    /**
-     *
-     * @return <type>
-     */
     public function getSimilarityFields()
     {
         return $this->similarityfields;
