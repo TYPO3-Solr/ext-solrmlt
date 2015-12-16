@@ -10,8 +10,8 @@ $pluginCode = 'solr_pi_mlt';
     'list_type',
     'solrmlt'
 );
-$TCA['tt_content']['types']['list']['subtypes_excludelist'][$pluginCode] = 'layout,select_key,pages,recursive';
-$TCA['tt_content']['types']['list']['subtypes_addlist'][$pluginCode] = 'pi_flexform';
+$GLOBALS['TCA']['tt_content']['types']['list']['subtypes_excludelist'][$pluginCode] = 'layout,select_key,pages,recursive';
+$GLOBALS['TCA']['tt_content']['types']['list']['subtypes_addlist'][$pluginCode] = 'pi_flexform';
 
 // add flexform to pi_mlt
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPiFlexFormValue(
