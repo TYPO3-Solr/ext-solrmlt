@@ -115,7 +115,7 @@ class MoreLikeThis extends PluginBase
     /**
      * Determines the moreLikeThis Id string to be used for the MLT query.
      *
-     * @return	string	The string to be used to find similar documents
+     * @return string The string to be used to find similar documents
      */
     protected function getMoreLikeThisIdString()
     {
