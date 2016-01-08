@@ -47,7 +47,7 @@ Apache Solr for TYPO3 - More Like This
 		|today|
 
 	The content of this document is related to TYPO3,
-	a GNU/GPL CMS/Framework available from `typo3.org <http://www.typo3.org/>`_.
+	a GNU/GPL CMS/Framework available from `typo3.org <http://typo3.org/>`_.
 
 
 What does it do?
