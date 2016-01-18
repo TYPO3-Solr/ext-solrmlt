@@ -1,0 +1,38 @@
+language: php
+
+php:
+  - 5.5
+  - 5.6
+  - 7.0
+
+env:
+  global:
+    - TYPO3_DATABASE_NAME="typo3_ci"
+    - TYPO3_DATABASE_HOST="localhost"
+    - TYPO3_DATABASE_USERNAME="root"
+    - TYPO3_DATABASE_PASSWORD=""
+    - EXT_SOLR_VERSION="dev-master"
+
+  matrix:
+    - TYPO3_VERSION="~7.6.0"
+    - TYPO3_VERSION="~6.2.15"
+    - TYPO3_VERSION="dev-master"
+
+matrix:
+  fast_finish: true
+  allow_failures:
+    - env: TYPO3_VERSION="dev-master"
+    - php: 7.0
+
+before_install:
+  - composer self-update
+  - composer --version
+  - composer global require fabpot/php-cs-fixer
+
+install: Tests/Build/bootstrap.sh
+script: Tests/Build/cibuild.sh
+after_script: Tests/Build/cleanup.sh
+
+cache:
+  directories:
+    - $HOME/.composer/cache
