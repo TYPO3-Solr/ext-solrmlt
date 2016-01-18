@@ -11,11 +11,10 @@ env:
     - TYPO3_DATABASE_HOST="localhost"
     - TYPO3_DATABASE_USERNAME="root"
     - TYPO3_DATABASE_PASSWORD=""
-    - EXT_SOLR_VERSION="dev-master"
+    - EXT_SOLR_VERSION="~3.1.1"
 
   matrix:
     - TYPO3_VERSION="~7.6.0"
-    - TYPO3_VERSION="~6.2.15"
     - TYPO3_VERSION="dev-master"
 
 matrix:
