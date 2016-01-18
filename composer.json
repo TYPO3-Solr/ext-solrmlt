@@ -4,7 +4,7 @@
 	"description": "Apache Solr for TYPO3 - More Like This",
 	"minimum-stability": "alpha",
 	"license": "GPL-2.0",
-	"version": "1.1.0",
+	"version": "1.2.x-dev",
 	"keywords": ["typo3", "TYPO3 CMS", "solr", "search"],
 	"homepage": "http://www.typo3-solr.com",
 	"authors": [
