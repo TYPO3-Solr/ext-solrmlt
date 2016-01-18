@@ -4,18 +4,18 @@
 
 ---
 conf.py:
-  copyright: 2009-2015
+  copyright: 2009-2016
   project: Apache Solr for TYPO3 - Enterprise Search
   version: 1.1
   release: 1.1.0
   latex_documents:
   - - Index
     - solr.tex
-    - Apache Solr for TYPO3 - Result Grouping
+    - Apache Solr for TYPO3 - Solr More Like This
     - Ingo Renner
     - manual
   html_theme_options:
-      github_repository: TYPO3-Solr/ext-solrgrouping
+      github_repository: TYPO3-Solr/ext-solrmlt
       github_branch: master
     latex_elements:
     papersize: a4paper

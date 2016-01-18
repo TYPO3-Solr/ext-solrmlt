@@ -4,6 +4,7 @@
 	"description": "Apache Solr for TYPO3 - More Like This",
 	"minimum-stability": "alpha",
 	"license": "GPL-2.0",
+	"version": "1.1.0",
 	"keywords": ["typo3", "TYPO3 CMS", "solr", "search"],
 	"homepage": "http://www.typo3-solr.com",
 	"authors": [
@@ -21,7 +22,7 @@
 		"source": "https://github.com/TYPO3-Solr/ext-solrmlt"
 	},
 	"require": {
-		"php": ">=5.3.7 <6.0",
+		"php": ">=5.5.0",
 		"typo3/cms-core": ">=6.2.16,<8.0"
 	},
 	"require-dev": {
