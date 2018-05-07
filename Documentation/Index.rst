@@ -1,4 +1,4 @@
-.. ==================================================
+﻿.. ==================================================
 .. FOR YOUR INFORMATION
 .. --------------------------------------------------
 .. -*- coding: utf-8 -*- with BOM.
@@ -8,36 +8,31 @@
 
 .. _start:
 
-======================================
-Apache Solr for TYPO3 - More Like This
-======================================
-
 .. only:: html
 
 	:Classification:
 		solr
 
 	:Version:
-		|release|
+		2.0.0-dev
 
 	:Language:
 		en
 
 	:Description:
-		Apache Solr for TYPO3 - More like this allows you to show related documents in your content retrieved from solr.
+		Apache Solr for TYPO3 - Solrmlt - Display related content from solr
 
 	:Keywords:
-		search, full text, index, solr, lucene, fast, query, results, grouping, field group, query group
+		search, full text, index, solr, lucene, fast, query, results
 
 	:Copyright:
-		2009-2015
+		2009-2018
 
 	:Author:
-		Ingo Renner & Timo Schmidt
+		Ingo Renner, Timo Hund
 
 	:Email:
 		ingo@typo3.org
-		timo.schmidt@dkd.de
 
 	:License:
 		This document is published under the Open Content License
@@ -47,36 +42,19 @@ Apache Solr for TYPO3 - More Like This
 		|today|
 
 	The content of this document is related to TYPO3,
-	a GNU/GPL CMS/Framework available from `typo3.org <http://typo3.org/>`_.
+	a GNU/GPL CMS/Framework available from `typo3.org <http://www.typo3.org/>`_.
 
 
-What does it do?
-================
+	**Table of Contents**
 
-Solr more like this can be used a a plugin on the page to show content that is related to this page and stored in
-you solr server.
+.. toctree::
+	:maxdepth: 3
+	:titlesonly:
+	:glob:
 
-Before you start
-================
+	Introduction/Index
+	Commands/Index
 
-Make sure your solr extension is configured to index everything you need
 
-* EXT:solr is installed
-* TypoScript template is included and solr endpoint is configured
-* TYPO3 domain record exists
-* Solr sites are initialized through "Initialize Solr connections"
-* Solr checks in the reports module are green
 
-If you run into any issues with setting up the base EXT:solr extension, please
-consult the `documentation <https://forge.typo3.org/projects/extension-solr/wiki>`_.
-Also please don't hesitate to ask for help on the
-`TYPO3 Solr Slack channel <https://typo3.slack.com/messages/ext-solr/>`_
 
-How to configure
-================
-
-The following steps are needed to configure "more like this":
-
-* Install solrmlt
-* Include the TypoScript Template "Apache Solr - More Like This" shipped with this extension
-* Include the Plugin "Search: More Like This" on a page where you want to display solr results like the from the current page.

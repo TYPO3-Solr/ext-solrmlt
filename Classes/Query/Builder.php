@@ -24,9 +24,13 @@ namespace ApacheSolrForTypo3\Solrmlt\Query;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+use ApacheSolrForTypo3\Solr\Domain\Search\Query\ParameterBuilder\QueryFields;
+use ApacheSolrForTypo3\Solr\Domain\Search\Query\QueryBuilder;
+use ApacheSolrForTypo3\Solr\Domain\Site\SiteRepository;
 use ApacheSolrForTypo3\Solr\Site;
 use ApacheSolrForTypo3\Solr\Util;
 use ApacheSolrForTypo3\Solrmlt\Configuration\PluginConfiguration;
+use ApacheSolrForTypo3\Solrmlt\Query\Query;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
 use TYPO3\CMS\Frontend\Plugin\AbstractPlugin;
@@ -39,13 +43,23 @@ use TYPO3\CMS\Frontend\Plugin\AbstractPlugin;
 class Builder
 {
     /**
+     * @var QueryBuilder
+     */
+    protected $solrQueryBuilder;
+
+    public function __construct()
+    {
+        $this->solrQueryBuilder = GeneralUtility::makeInstance(QueryBuilder::class);
+    }
+
+    /**
      * Creates an intance of the Solrmlt Query.
      *
-     * @return \ApacheSolrForTypo3\Solrmlt\Query\Query
+     * @return Query
      */
     protected function getMoreLikeThisQuery()
     {
-        return GeneralUtility::makeInstance('ApacheSolrForTypo3\\Solrmlt\\Query\\Query');
+        return GeneralUtility::makeInstance(Query::class);
     }
 
     /**
@@ -57,9 +71,9 @@ class Builder
      */
     public function build(PluginConfiguration $pluginConfiguration, TypoScriptFrontendController $TSFE)
     {
-        /** @var $query \ApacheSolrForTypo3\Solrmlt\Query\Query */
+        /** @var $query Query */
         $query = $this->getMoreLikeThisQuery();
-        $query->setQueryFields(array('id,title', 'score'));
+        $query->setQueryFields(QueryFields::fromString('id,title,score'));
 
         $query = $this->applyFrontendRestrictions($query, $TSFE);
         $query = $this->applyPluginConfiguration($query, $pluginConfiguration);
@@ -84,10 +98,7 @@ class Builder
                 $queryString = $TSFE->page['title'];
                 break;
         }
-
-        $query->setQueryString($queryString);
-
-        return $query;
+        return $this->solrQueryBuilder->startFrom($query)->useQueryString($queryString)->useRawQueryString(true)->getQuery();
     }
 
     /**
@@ -99,10 +110,9 @@ class Builder
      */
     protected function applyFrontendRestrictions(Query $query, TypoScriptFrontendController $TSFE)
     {
-        $query->setUserAccessGroups(explode(',', $TSFE->gr_list));
-        $query->setSiteHashFilter($this->getSiteHashFilterForTSFE($TSFE));
-
-        return $query;
+        return $this->solrQueryBuilder->startFrom($query)
+            ->useUserAccessGroups(explode(',', $TSFE->gr_list))
+            ->useFilter($this->getSiteHashFilterForTSFE($TSFE), 'siteHash')->getQuery();
     }
 
     /**
@@ -113,7 +123,9 @@ class Builder
      */
     protected function getSiteHashFilterForTSFE(TypoScriptFrontendController $TSFE)
     {
-        return Site::getSiteByPageId($TSFE->id)->getDomain();
+            /** @var $siteRepository SiteRepository */
+        $siteRepository = GeneralUtility::makeInstance(SiteRepository::class);
+        return $siteRepository->getSiteByPageId($TSFE->id)->getDomain();
     }
 
     /**

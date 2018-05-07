@@ -24,28 +24,17 @@ namespace ApacheSolrForTypo3\Solrmlt\Tests\Unit;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
-use TYPO3\CMS\Core\Tests\UnitTestCase as TYPO3UnitTest;
+use ApacheSolrForTypo3\Solr\Tests\Unit\UnitTest as SolrUnitTest;
 
 /**
  * Base class for all unit tests in the solrmlt project
  *
- * @author Timo Schmidt <timo.schmidt@dkd.de>
+ * @author Timo Hund <timo.hund@dkd.de>
  * @package TYPO3
  * @subpackage solrmlt
  */
-abstract class UnitTest extends TYPO3UnitTest
+abstract class UnitTest extends SolrUnitTest
 {
-    /**
-     * Returns a mock class where every behaviour is mocked, just to full fill
-     * the datatype and have the possibility to mock the behaviour.
-     *
-     * @param string $className
-     * @return \PHPUnit_Framework_MockObject_MockObject
-     */
-    protected function getDumbMock($className)
-    {
-        return $this->getMock($className, array(), array(), '', false);
-    }
 
     /**
      * @param string $version

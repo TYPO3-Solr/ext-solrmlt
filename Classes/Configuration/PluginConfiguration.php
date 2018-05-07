@@ -26,47 +26,38 @@ namespace ApacheSolrForTypo3\Solrmlt\Configuration;
  ***************************************************************/
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Frontend\Plugin\AbstractPlugin;
 
 /**
  * Configuration object to encapsulate the access of the plugin configuration
  *
- * @author Timo Schmidt <timo.schmidt@dkd.de>
+ * @author Timo Hund <timo.hund@dkd.de>
  */
 class PluginConfiguration
 {
 
     /**
-     * @var AbstractPlugin
+     * @var array
      */
-    protected $contextPlugin;
+    protected $pluginData;
 
     /**
      * PluginConfiguration constructor.
-     * @param AbstractPlugin $contextPlugin
+     * @param array $pluginData
      */
-    public function __construct(AbstractPlugin $contextPlugin)
+    public function __construct($pluginData)
     {
-        $this->contextPlugin = $contextPlugin;
+        $this->pluginData = $pluginData;
     }
 
     /**
      * Returns the flexform value of the plugin that was passed as context plugin.
      *
      * @param $fieldName
-     * @param string $sheet
-     * @param string $language
-     * @param string $value
      * @return NULL|string
      */
-    protected function getFlexFormValueFromPluginContentObject(
-        $fieldName,
-        $sheet = 'sDEF',
-        $language = 'lDEF',
-        $value = 'vDEF'
-    ) {
-        $flexFormData = $this->contextPlugin->cObj->data['pi_flexform'];
-        return $this->contextPlugin->pi_getFFvalue($flexFormData, $fieldName, $sheet, $language, $value);
+    protected function getFlexFormValueFromPluginContentObject($fieldName)
+    {
+        return $this->pluginData[$fieldName];
     }
 
     /**
@@ -115,7 +106,7 @@ class PluginConfiguration
      */
     public function getMinTermFrequency()
     {
-        return $this->getFlexFormValueFromPluginContentObject('minTermFrequency', 'sAdvanced');
+        return $this->getFlexFormValueFromPluginContentObject('minTermFrequency');
     }
 
     /**
@@ -128,7 +119,7 @@ class PluginConfiguration
      */
     public function getMinDocumentFrequency()
     {
-        return $this->getFlexFormValueFromPluginContentObject('minDocumentFrequency', 'sAdvanced');
+        return $this->getFlexFormValueFromPluginContentObject('minDocumentFrequency');
     }
 
     /**
@@ -140,7 +131,7 @@ class PluginConfiguration
      */
     public function getMinWordLength()
     {
-        return $this->getFlexFormValueFromPluginContentObject('minWordLength', 'sAdvanced');
+        return $this->getFlexFormValueFromPluginContentObject('minWordLength');
     }
 
     /**
@@ -152,7 +143,7 @@ class PluginConfiguration
      */
     public function getMaxWordLength()
     {
-        return $this->getFlexFormValueFromPluginContentObject('maxWordLength', 'sAdvanced');
+        return $this->getFlexFormValueFromPluginContentObject('maxWordLength');
     }
 
     /**
@@ -164,6 +155,6 @@ class PluginConfiguration
      */
     public function getMaxQueryTerms()
     {
-        return $this->getFlexFormValueFromPluginContentObject('maxQueryTerms', 'sAdvanced');
+        return $this->getFlexFormValueFromPluginContentObject('maxQueryTerms');
     }
 }

@@ -24,20 +24,22 @@ namespace ApacheSolrForTypo3\Solrmlt\Tests\Unit\Query;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+use ApacheSolrForTypo3\Solrmlt\Configuration\PluginConfiguration;
+use ApacheSolrForTypo3\Solrmlt\Query\Builder;
 use ApacheSolrForTypo3\Solrmlt\Tests\Unit\UnitTest;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
 
 /**
  * Testcase to check if we could build a query with the QueryBuilder
  *
- * @author Timo Schmidt <timo.schmidt@dkd.de>
+ * @author Timo Huhnd <timo.hund@dkd.de>
  * @package TYPO3
  * @subpackage solrmlt
  */
 class BuilderTest extends UnitTest
 {
     /**
-     * @var \ApacheSolrForTypo3\Solrmlt\Query\Builder
+     * @var Builder
      */
     protected $builder;
 
@@ -46,7 +48,7 @@ class BuilderTest extends UnitTest
      */
     public function setUp()
     {
-        $this->builder = $this->getMock('ApacheSolrForTypo3\\Solrmlt\\Query\\Builder', array('getSiteHashFilterForTSFE'));
+        $this->builder = $this->getMockBuilder(Builder::class)->setMethods(['getSiteHashFilterForTSFE'])->getMock();
     }
 
     /**
@@ -57,13 +59,13 @@ class BuilderTest extends UnitTest
         // we avoid the usage of the Sites::getSiteByPageId()->getDomain call an return a fake domain in our testcase
         $this->builder->expects($this->once())->method('getSiteHashFilterForTSFE')->will($this->returnValue('localhost'));
 
-        $configurationMock = $this->getDumbMock('ApacheSolrForTypo3\Solrmlt\Configuration\PluginConfiguration');
+        $configurationMock = $this->getDumbMock(PluginConfiguration::class);
         $configurationMock->expects($this->once())->method('getSimilarityFields')->will($this->returnValue(array('content')));
 
-        $tsfeMock = $this->getDumbMock('TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController');
+        $tsfeMock = $this->getDumbMock(TypoScriptFrontendController::class);
         $tsfeMock->page = array('title' => 'fake page title');
 
         $query = $this->builder->build($configurationMock, $tsfeMock);
-        $this->assertSame('fake page title', $query->getQueryString(), 'Querybuilder did not assign expected querystring');
+        $this->assertSame('fake page title', $query->getQueryStringContainer()->getQueryString(), 'Querybuilder did not assign expected querystring');
     }
 }
