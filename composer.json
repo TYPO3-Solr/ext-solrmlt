@@ -3,8 +3,7 @@
 	"type": "typo3-cms-extension",
 	"description": "Apache Solr for TYPO3 - More Like This",
 	"minimum-stability": "alpha",
-	"license": "GPL-2.0",
-	"version": "1.2.x-dev",
+	"license": "GPL-3.0-or-later",
 	"keywords": ["typo3", "TYPO3 CMS", "solr", "search"],
 	"homepage": "http://www.typo3-solr.com",
 	"authors": [
@@ -13,8 +12,8 @@
 			"email": "ingo@typo3.org"
 		},
 		{
-			"name": "Timo Schmidt",
-			"email": "timo.schmidt@dkd.de"
+			"name": "Timo Hund",
+			"email": "timo.hund@dkd.de"
 		}
 	],
 	"support": {
@@ -22,11 +21,17 @@
 		"source": "https://github.com/TYPO3-Solr/ext-solrmlt"
 	},
 	"require": {
-		"php": ">=5.5.0",
-		"typo3/cms-core": ">=6.2.16,<8.0"
+		"php": ">=7.0 <7.3",
+		"typo3/cms-core": "^8.7.0 || ^9.1",
+		"typo3/cms-extbase": "^8.7.0 || ^9.1",
+		"typo3/cms-frontend": "^8.7.0 || ^9.1",
+		"typo3/cms-fluid": "^8.7.0 || ^9.1",
+		"typo3/cms-tstemplate": "^8.7.0 || ^9.1",
+		"apache-solr-for-typo3/solr": "^8.0.0"
 	},
 	"require-dev": {
-		"phpunit/phpunit": "~4.8.0"
+		"phpunit/phpunit": "^6.0",
+		"nimut/testing-framework": "^3.0"
 	},
 	"replace": {
 		"solrmlt": "self.version",
@@ -40,6 +45,7 @@
 	"autoload-dev": {
 		"psr-4": {
 			"ApacheSolrForTypo3\\Solrmlt\\Tests\\": "Tests/",
+			"ApacheSolrForTypo3\\Solr\\Tests\\": ".Build/Web/typo3conf/ext/solr/Tests/",
 			"TYPO3\\CMS\\Core\\Tests\\": ".Build/vendor/typo3/cms/typo3/sysext/core/Tests/"
 		}
 	},

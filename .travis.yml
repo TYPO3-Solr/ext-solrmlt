@@ -1,37 +1,58 @@
 language: php
 
-php:
-  - 5.5
-  - 5.6
-  - 7.0
+services:
+  - docker
 
+php:
+  - 7.0
+  - 7.1
+  - 7.2
+
+jdk:
+  - oraclejdk8
+
+addons:
+  apt:
+    packages:
+      - parallel
+      - oracle-java8-installer
 env:
   global:
+    - JAVA_HOME=/usr/lib/jvm/java-8-oracle
     - TYPO3_DATABASE_NAME="typo3_ci"
-    - TYPO3_DATABASE_HOST="localhost"
+    - TYPO3_DATABASE_HOST="127.0.0.1"
     - TYPO3_DATABASE_USERNAME="root"
     - TYPO3_DATABASE_PASSWORD=""
-    - EXT_SOLR_VERSION="~3.1.1"
+    - EXT_SOLR_VERSION="^8.0.0"
 
   matrix:
-    - TYPO3_VERSION="~7.6.0"
-    - TYPO3_VERSION="dev-master"
+    - TYPO3_VERSION="^8.7"
+    - TYPO3_VERSION="^9.1"
 
 matrix:
   fast_finish: true
-  allow_failures:
-    - env: TYPO3_VERSION="dev-master"
+  exclude:
     - php: 7.0
+      env: TYPO3_VERSION="^9.1"
+    - php: 7.1
+      env: TYPO3_VERSION="^9.1"
 
 before_install:
   - composer self-update
   - composer --version
-  - composer global require fabpot/php-cs-fixer
+  # resources for solr
+  - sudo update-java-alternatives -s java-8-oracle
 
-install: Tests/Build/bootstrap.sh
-script: Tests/Build/cibuild.sh
-after_script: Tests/Build/cleanup.sh
+install:
+  - Build/Test/bootstrap.sh
+
+script:
+  - Build/Test/cibuild.sh
+
+after_script:
+  - Build/Test/cleanup.sh
 
 cache:
   directories:
     - $HOME/.composer/cache
+    - $HOME/solr/downloads

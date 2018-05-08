@@ -1,8 +1,6 @@
 <phpunit
 	backupGlobals="false"
 	backupStaticAttributes="false"
-	bootstrap="../../.Build/vendor/typo3/cms/typo3/sysext/core/Build/UnitTestsBootstrap.php"
-
 	colors="true"
 	convertErrorsToExceptions="false"
 	convertWarningsToExceptions="false"
@@ -16,8 +14,12 @@
 
 	<testsuites>
 		<testsuite name="ext-solrmlt-unit-tests">
-			<directory>../Unit/</directory>
+			<directory>../../Tests/Unit/</directory>
 		</testsuite>
 	</testsuites>
-
+	<filter>
+		<whitelist processUncoveredFilesFromWhitelist="false">
+			<directory suffix=".php">../../Classes/</directory>
+		</whitelist>
+	</filter>
 </phpunit>

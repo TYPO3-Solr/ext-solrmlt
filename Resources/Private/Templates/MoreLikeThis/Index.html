@@ -1,0 +1,17 @@
+
+<div id="tx-solr-search-mlt">
+	<f:if condition="{results}">
+		<f:then>
+			<ul class="results-list">
+				<f:for each="{results}" as="result">
+					<li class="results-entry">
+						<a href="{result.url}">{result.title}</a>
+					</li>
+				</f:for>
+			</ul>
+		</f:then>
+		<f:else>
+			No similar search results available
+		</f:else>
+	</f:if>
+</div>

@@ -2,17 +2,20 @@
 
 echo "PWD: $(pwd)"
 
-export TYPO3_PATH_WEB=$(pwd)/.Build/Web
+export TYPO3_PATH_WEB="$(pwd)/.Build/Web"
+export TYPO3_PATH_PACKAGES="$(pwd)/.Build/vendor/"
+
 
 if [ $TRAVIS ]; then
     # Travis does not have composer's bin dir in $PATH
     export PATH="$PATH:$HOME/.composer/vendor/bin"
 fi
 
+# use from vendor dir
 php-cs-fixer --version > /dev/null 2>&1
 if [ $? -eq "0" ]; then
     echo "Check PSR-2 compliance"
-    php-cs-fixer fix -v --level=psr2 --dry-run Classes
+    php-cs-fixer fix --diff --verbose --dry-run --rules='{"function_declaration": {"closure_function_spacing": "none"}}' Classes
 
     if [ $? -ne "0" ]; then
         echo "Some files are not PSR-2 compliant"
@@ -21,8 +24,10 @@ if [ $? -eq "0" ]; then
     fi
 fi
 
+
 echo "Run unit tests"
-.Build/bin/phpunit --colors -c Tests/Build/UnitTests.xml
+UNIT_BOOTSTRAP=".Build/vendor/nimut/testing-framework/res/Configuration/UnitTestsBootstrap.php"
+.Build/bin/phpunit --colors -c Build/Test/UnitTests.xml --coverage-html=../../../solrmltcoverage-unit/ --bootstrap=$UNIT_BOOTSTRAP
 
 echo "Run integration tests"
 
@@ -58,4 +63,5 @@ else
 	exit 1
 fi
 
-.Build/bin/phpunit --colors -c Tests/Build/IntegrationTests.xml
+INTEGRATION_BOOTSTRAP=".Build/vendor/nimut/testing-framework/res/Configuration/FunctionalTestsBootstrap.php"
+.Build/bin/phpunit --colors -c Build/Test/IntegrationTests.xml --coverage-html=../../../solrmlt-coverage-integration/ --bootstrap=$INTEGRATION_BOOTSTRAP

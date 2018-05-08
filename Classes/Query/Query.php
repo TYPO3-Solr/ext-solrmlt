@@ -24,7 +24,8 @@ namespace ApacheSolrForTypo3\Solrmlt\Query;
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
-use ApacheSolrForTypo3\Solr\Query as SolrQuery;
+use ApacheSolrForTypo3\Solr\Domain\Search\Query\ParameterBuilder\QueryFields;
+use ApacheSolrForTypo3\Solr\Domain\Search\Query\Query as SolrQuery;
 
 /**
  * A query specialized to get documents similar to another
@@ -38,8 +39,13 @@ class Query extends SolrQuery
 
 
         // configuration
-    protected $similarityFields         = array('title', 'content');
-    protected $queryFields              = array('*', 'score');
+    protected $similarityFields         = ['title', 'content'];
+
+    /**
+     * @var QueryFields
+     */
+    protected $queryFields              = null;
+
     protected $includeMatch             = false;
     protected $interestingTerms         = 'details';
     protected $minimumTermFrequency     = 1;
@@ -54,20 +60,9 @@ class Query extends SolrQuery
      */
     public function __construct()
     {
+        $this->queryFields = QueryFields::fromString('*,score');
         parent::__construct('');
-            // todo, is this really needed? Because it is not used from outside, can we remove it?
-        $this->configuration = $GLOBALS['TSFE']->tmpl->setup['plugin.']['tx_solr.']['moreLikeThis.'];
         $this->setQueryType('mlt');
-    }
-
-    /**
-     * Used to build the query string for solr.
-     *
-     * @return string
-     */
-    public function getQueryString()
-    {
-        return $this->queryString;
     }
 
     /**
@@ -79,7 +74,7 @@ class Query extends SolrQuery
     {
         $moreLikeThisParameters = array(
             'mlt.fl'               => implode(',', $this->similarityFields),
-            'mlt.qf'               => implode(',', $this->queryFields),
+            'mlt.qf'               => $this->queryFields->toString(','),
             'mlt.match.include'    => $this->includeMatch ? 'true' : 'false',
             'mlt.interestingTerms' => $this->interestingTerms,
             'mlt.mintf'            => $this->minimumTermFrequency,
@@ -89,7 +84,7 @@ class Query extends SolrQuery
             'mlt.maxqt'            => $this->maximumQueryTerms
         );
 
-        return array_merge($moreLikeThisParameters, $this->queryParameters);
+        return array_merge($moreLikeThisParameters, $this->queryParametersContainer->toArray());
     }
 
     /**
@@ -99,7 +94,7 @@ class Query extends SolrQuery
      */
     public function getSimilarityFields()
     {
-        return $this->similarityfields;
+        return $this->similarityFields;
     }
 
     /**
@@ -127,9 +122,9 @@ class Query extends SolrQuery
     /**
      * Used to set the query fields that are used for "mlt.qf".
      *
-     * @param array $queryFields
+     * @param QueryFields $queryFields
      */
-    public function setQueryFields(array $queryFields)
+    public function setQueryFields(QueryFields $queryFields)
     {
         if (!empty($queryFields)) {
             $this->queryFields = $queryFields;
@@ -181,7 +176,7 @@ class Query extends SolrQuery
      */
     public function setInterestingTerms($interestingTerms)
     {
-        if (in_array($interestingTerms, array('list', 'details', 'none'))) {
+        if (in_array($interestingTerms, ['list', 'details', 'none'])) {
             $this->interestingTerms = $interestingTerms;
         }
     }
