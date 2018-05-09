@@ -93,6 +93,9 @@ class Builder
     protected function applyQueryString(Query $query, PluginConfiguration $pluginConfiguration, TypoScriptFrontendController $TSFE)
     {
         switch ($pluginConfiguration->getQueryStringCreationType()) {
+            case 'altpagetitle':
+                $queryString = $TSFE->altPageTitle ?? '';
+                break;
             case 'pagetitle':
             default:
                 $queryString = $TSFE->page['title'];
