@@ -41,6 +41,10 @@
 										<numIndex index="0">Title of the current page</numIndex>
 										<numIndex index="1">pagetitle</numIndex>
 									</numIndex>
+									<numIndex index="1" type="array">
+										<numIndex index="0">Alternative page title of the current page</numIndex>
+										<numIndex index="1">altpagetitle</numIndex>
+									</numIndex>
 								</items>
 							</config>
 						</TCEforms>
