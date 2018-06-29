@@ -128,7 +128,7 @@ class MoreLikeThisController extends ActionController
     {
         $resultDocuments = [];
         $query = $this->getQueryBuilder()->build($this->getPluginConfiguration(), $this->getTSFE());
-        $mltResults = $this->getSearch()->search($query, 0, $this->getPluginConfiguration()->getMaxItems());
+        $mltResults = $this->getSearch()->search($query, 1, $this->getPluginConfiguration()->getMaxItems());
 
         foreach ($mltResults->response->docs as $resultDocument) {
             $temporaryResultDocument = [];
