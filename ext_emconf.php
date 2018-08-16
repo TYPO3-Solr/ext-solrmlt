@@ -2,7 +2,7 @@
 $EM_CONF[$_EXTKEY] = [
     'title' => 'Apache Solr for TYPO3 - More Like This',
     'description' => 'More Like This',
-    'version' => '2.0.0-dev',
+    'version' => '3.0.0-dev',
     'state' => 'stable',
     'category' => 'plugin',
     'author' => 'Ingo Renner, Timo Hund',
@@ -15,7 +15,7 @@ $EM_CONF[$_EXTKEY] = [
     'clearCacheOnLoad' => 0,
     'constraints' => [
         'depends' => [
-            'solr' => '8.0.0-',
+            'solr' => '9.0.0-',
             'typo3' => '8.7.0-8.7.99',
         ],
         'conflicts' => [],
