@@ -136,17 +136,16 @@ class Builder
      */
     protected function applyPluginConfiguration(SearchQuery $query, PluginConfiguration $pluginConfiguration)
     {
-        $queryFields = QueryFields::fromString('id,title,score');
+        $queryFields = QueryFields::fromString(implode(',', $pluginConfiguration->getSimilarityFields()));
         $this->solrQueryBuilder->startFrom($query)->useQueryFields($queryFields)->getQuery();
 
-        $query->getMoreLikeThis()->setQueryFields($queryFields->toString());
-        $query->getMoreLikeThis()->setFields($pluginConfiguration->getSimilarityFields());
+        $query->getMoreLikeThis()->setQueryFields($queryFields->toString(','));
+        $query->getMoreLikeThis()->setFields($queryFields->toString(','));
         $query->getMoreLikeThis()->setMinimumTermFrequency($pluginConfiguration->getMinTermFrequency());
         $query->getMoreLikeThis()->setMinimumDocumentFrequency($pluginConfiguration->getMinDocumentFrequency());
         $query->getMoreLikeThis()->setMinimumWordLength($pluginConfiguration->getMinWordLength());
         $query->getMoreLikeThis()->setMaximumWordLength($pluginConfiguration->getMaxWordLength());
         $query->getMoreLikeThis()->setMaximumQueryTerms($pluginConfiguration->getMaxQueryTerms());
-
         return $query;
     }
 }
