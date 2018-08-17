@@ -26,11 +26,9 @@ namespace ApacheSolrForTypo3\Solrmlt\Query;
 
 use ApacheSolrForTypo3\Solr\Domain\Search\Query\ParameterBuilder\QueryFields;
 use ApacheSolrForTypo3\Solr\Domain\Search\Query\QueryBuilder;
+use ApacheSolrForTypo3\Solr\Domain\Search\Query\SearchQuery;
 use ApacheSolrForTypo3\Solr\Domain\Site\SiteRepository;
-use ApacheSolrForTypo3\Solr\Site;
-use ApacheSolrForTypo3\Solr\Util;
 use ApacheSolrForTypo3\Solrmlt\Configuration\PluginConfiguration;
-use ApacheSolrForTypo3\Solrmlt\Query\Query;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
 use TYPO3\CMS\Frontend\Plugin\AbstractPlugin;
@@ -55,11 +53,11 @@ class Builder
     /**
      * Creates an intance of the Solrmlt Query.
      *
-     * @return Query
+     * @return SearchQuery
      */
     protected function getMoreLikeThisQuery()
     {
-        return GeneralUtility::makeInstance(Query::class);
+        return GeneralUtility::makeInstance(SearchQuery::class);
     }
 
     /**
@@ -67,14 +65,12 @@ class Builder
      *
      * @param PluginConfiguration $pluginConfiguration
      * @param TypoScriptFrontendController $TSFE
-     * @return Query
+     * @return SearchQuery
      */
     public function build(PluginConfiguration $pluginConfiguration, TypoScriptFrontendController $TSFE)
     {
-        /** @var $query Query */
         $query = $this->getMoreLikeThisQuery();
-        $query->setQueryFields(QueryFields::fromString('id,title,score'));
-
+        /** @var $query SearchQuery */
         $query = $this->applyFrontendRestrictions($query, $TSFE);
         $query = $this->applyPluginConfiguration($query, $pluginConfiguration);
         $query = $this->applyQueryString($query, $pluginConfiguration, $TSFE);
@@ -85,12 +81,12 @@ class Builder
     /**
      * Applies the querystring, based on the configuration "QueryStringCreationType".
      *
-     * @param Query $query
+     * @param SearchQuery $query
      * @param PluginConfiguration $pluginConfiguration
      * @param TypoScriptFrontendController $TSFE
-     * @return Query
+     * @return SearchQuery
      */
-    protected function applyQueryString(Query $query, PluginConfiguration $pluginConfiguration, TypoScriptFrontendController $TSFE)
+    protected function applyQueryString(SearchQuery $query, PluginConfiguration $pluginConfiguration, TypoScriptFrontendController $TSFE)
     {
         switch ($pluginConfiguration->getQueryStringCreationType()) {
             case 'altpagetitle':
@@ -101,17 +97,17 @@ class Builder
                 $queryString = $TSFE->page['title'];
                 break;
         }
-        return $this->solrQueryBuilder->startFrom($query)->useQueryString($queryString)->useRawQueryString(true)->getQuery();
+        return $this->solrQueryBuilder->startFrom($query)->useQueryString($queryString)->getQuery();
     }
 
     /**
      * Applies the TSFE Group and SiteHash restrictions on the query.
      *
-     * @param Query $query
+     * @param SearchQuery $query
      * @param TypoScriptFrontendController $TSFE
-     * @return Query
+     * @return SearchQuery
      */
-    protected function applyFrontendRestrictions(Query $query, TypoScriptFrontendController $TSFE)
+    protected function applyFrontendRestrictions(SearchQuery $query, TypoScriptFrontendController $TSFE)
     {
         return $this->solrQueryBuilder->startFrom($query)
             ->useUserAccessGroups(explode(',', $TSFE->gr_list))
@@ -128,24 +124,28 @@ class Builder
     {
             /** @var $siteRepository SiteRepository */
         $siteRepository = GeneralUtility::makeInstance(SiteRepository::class);
-        return $siteRepository->getSiteByPageId($TSFE->id)->getDomain();
+        return "siteHash:".$siteRepository->getSiteByPageId($TSFE->id)->getSiteHash();
     }
 
     /**
      * Applies the settings of the plugin configuration on the created query.
      *
-     * @param Query $query
+     * @param SearchQuery $query
      * @param PluginConfiguration $pluginConfiguration
-     * @return Query
+     * @return SearchQuery
      */
-    protected function applyPluginConfiguration(Query $query, PluginConfiguration $pluginConfiguration)
+    protected function applyPluginConfiguration(SearchQuery $query, PluginConfiguration $pluginConfiguration)
     {
-        $query->setSimilarityFields($pluginConfiguration->getSimilarityFields());
-        $query->setMinimumTermFrequency($pluginConfiguration->getMinTermFrequency());
-        $query->setMinimumDocumentFrequency($pluginConfiguration->getMinDocumentFrequency());
-        $query->setMinimumWordLength($pluginConfiguration->getMinWordLength());
-        $query->setMaximumWordLength($pluginConfiguration->getMaxWordLength());
-        $query->setMaximumQueryTerms($pluginConfiguration->getMaxQueryTerms());
+        $queryFields = QueryFields::fromString('id,title,score');
+        $this->solrQueryBuilder->startFrom($query)->useQueryFields($queryFields)->getQuery();
+
+        $query->getMoreLikeThis()->setQueryFields($queryFields->toString());
+        $query->getMoreLikeThis()->setFields($pluginConfiguration->getSimilarityFields());
+        $query->getMoreLikeThis()->setMinimumTermFrequency($pluginConfiguration->getMinTermFrequency());
+        $query->getMoreLikeThis()->setMinimumDocumentFrequency($pluginConfiguration->getMinDocumentFrequency());
+        $query->getMoreLikeThis()->setMinimumWordLength($pluginConfiguration->getMinWordLength());
+        $query->getMoreLikeThis()->setMaximumWordLength($pluginConfiguration->getMaxWordLength());
+        $query->getMoreLikeThis()->setMaximumQueryTerms($pluginConfiguration->getMaxQueryTerms());
 
         return $query;
     }

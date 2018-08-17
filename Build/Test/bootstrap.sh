@@ -58,7 +58,6 @@ composer require --dev typo3/cms-extbase="$TYPO3_VERSION"
 composer require --dev typo3/cms-frontend="$TYPO3_VERSION"
 composer require --dev typo3/cms-fluid="$TYPO3_VERSION"
 composer require --dev typo3/cms-tstemplate="$TYPO3_VERSION"
-composer remove "apache-solr-for-typo3/solr"
 composer require --dev --prefer-source apache-solr-for-typo3/solr="$EXT_SOLR_VERSION"
 
 # Restore composer.json

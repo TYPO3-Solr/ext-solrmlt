@@ -16,6 +16,7 @@ namespace ApacheSolrForTypo3\Solrmlt\Controller;
 
 use ApacheSolrForTypo3\Solr\ConnectionManager;
 use ApacheSolrForTypo3\Solr\Search;
+use ApacheSolrForTypo3\Solr\System\Solr\Document\Document;
 use ApacheSolrForTypo3\Solrmlt\Configuration\PluginConfiguration;
 use ApacheSolrForTypo3\Solrmlt\Query\Builder;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -128,9 +129,12 @@ class MoreLikeThisController extends ActionController
     {
         $resultDocuments = [];
         $query = $this->getQueryBuilder()->build($this->getPluginConfiguration(), $this->getTSFE());
-        $mltResults = $this->getSearch()->search($query, 0, $this->getPluginConfiguration()->getMaxItems());
+
+        // we skip the first item since the is the most equals, so the page itself
+        $mltResults = $this->getSearch()->search($query, 1, $this->getPluginConfiguration()->getMaxItems());
 
         foreach ($mltResults->response->docs as $resultDocument) {
+            /** @var $resultDocument Document */
             $temporaryResultDocument = [];
             $availableFields = $resultDocument->getFieldNames();
             foreach ($availableFields as $fieldName) {

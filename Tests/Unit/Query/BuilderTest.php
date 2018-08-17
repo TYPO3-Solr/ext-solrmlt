@@ -57,7 +57,7 @@ class BuilderTest extends UnitTest
     public function canSetTheQueryStringFromPageTitle()
     {
         // we avoid the usage of the Sites::getSiteByPageId()->getDomain call an return a fake domain in our testcase
-        $this->builder->expects($this->once())->method('getSiteHashFilterForTSFE')->will($this->returnValue('localhost'));
+        $this->builder->expects($this->once())->method('getSiteHashFilterForTSFE')->will($this->returnValue('siteHash:localhost'));
 
         $configurationMock = $this->getDumbMock(PluginConfiguration::class);
         $configurationMock->expects($this->once())->method('getSimilarityFields')->will($this->returnValue(array('content')));
@@ -66,6 +66,6 @@ class BuilderTest extends UnitTest
         $tsfeMock->page = array('title' => 'fake page title');
 
         $query = $this->builder->build($configurationMock, $tsfeMock);
-        $this->assertSame('fake page title', $query->getQueryStringContainer()->getQueryString(), 'Querybuilder did not assign expected querystring');
+        $this->assertSame('fake page title', $query->getQuery(), 'Querybuilder did not assign expected querystring');
     }
 }
