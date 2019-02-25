@@ -22,11 +22,11 @@
 	},
 	"require": {
 		"php": ">=7.0 <7.3",
-		"typo3/cms-core": "^8.7.0 || ^9.3",
-		"typo3/cms-extbase": "^8.7.0 || ^9.3",
-		"typo3/cms-frontend": "^8.7.0 || ^9.3",
-		"typo3/cms-fluid": "^8.7.0 || ^9.3",
-		"typo3/cms-tstemplate": "^8.7.0 || ^9.3"
+		"typo3/cms-core": "^8.7.0 || ^9.5.0",
+		"typo3/cms-extbase": "^8.7.0 || ^9.5.0",
+		"typo3/cms-frontend": "^8.7.0 || ^9.5.0",
+		"typo3/cms-fluid": "^8.7.0 || ^9.5.0",
+		"typo3/cms-tstemplate": "^8.7.0 || ^9.5.0"
 	},
 	"require-dev": {
 		"phpunit/phpunit": "^6.0",
@@ -61,7 +61,7 @@
 	},
 	"extra": {
 		"branch-alias": {
-			"dev-master": "2.0.x-dev"
+			"dev-master": "3.0.x-dev"
 		},
 		"typo3/cms": {
 			"cms-package-dir": "{$vendor-dir}/typo3/cms",

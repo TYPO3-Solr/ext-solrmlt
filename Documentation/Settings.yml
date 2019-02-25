@@ -6,8 +6,8 @@
 conf.py:
   copyright: 2009-2019
   project: Apache Solr for TYPO3 - Solrmlt - Display related content from solr
-  version: 3.0.0-dev
-  release: 3.0.0-dev
+  version: 3.0.0
+  release: 3.0.0
   extensions:
     - sphinx.ext.intersphinx
     - t3sphinx.ext.t3extras
