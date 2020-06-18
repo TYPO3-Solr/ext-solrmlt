@@ -35,7 +35,7 @@
 						<TCEforms>
 							<label>Create the query string from</label>
 							<config>
-								<type>select</type>
+								<type>selectSingle</type>
 								<items type="array">
 									<numIndex index="0" type="array">
 										<numIndex index="0">Title of the current page</numIndex>

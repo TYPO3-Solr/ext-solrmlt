@@ -19,10 +19,11 @@ use ApacheSolrForTypo3\Solr\Search;
 use ApacheSolrForTypo3\Solr\System\Solr\Document\Document;
 use ApacheSolrForTypo3\Solrmlt\Configuration\PluginConfiguration;
 use ApacheSolrForTypo3\Solrmlt\Query\Builder;
+use TYPO3\CMS\Core\Context\Context;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
-use TYPO3\CMS\Extbase\Service\FlexFormService;
+use TYPO3\CMS\Core\Service\FlexFormService;
 use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
 
@@ -113,7 +114,9 @@ class MoreLikeThisController extends ActionController
         if ($this->search === null) {
             /** @var \ApacheSolrForTypo3\Solr\ConnectionManager $solrConnection */
             $typoScriptFrontendController = $GLOBALS['TSFE'];
-            $solrConnection = GeneralUtility::makeInstance(ConnectionManager::class)->getConnectionByPageId($typoScriptFrontendController->id, $typoScriptFrontendController->sys_language_uid, $typoScriptFrontendController->MP);
+            $context = GeneralUtility::makeInstance(Context::class);
+            $languageUid = (int)$context->getPropertyFromAspect('language', 'id');
+            $solrConnection = GeneralUtility::makeInstance(ConnectionManager::class)->getConnectionByPageId($typoScriptFrontendController->id, $languageUid, $typoScriptFrontendController->MP);
             $this->search = GeneralUtility::makeInstance(Search::class, $solrConnection);
         }
 
