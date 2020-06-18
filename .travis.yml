@@ -4,18 +4,14 @@ services:
   - docker
 
 php:
-  - 7.0
-  - 7.1
   - 7.2
-
-jdk:
-  - oraclejdk8
+  - 7.3
+  - 7.4
 
 addons:
   apt:
     packages:
       - parallel
-      - oracle-java8-installer
 env:
   global:
     - JAVA_HOME=/usr/lib/jvm/java-8-oracle
@@ -23,25 +19,18 @@ env:
     - TYPO3_DATABASE_HOST="127.0.0.1"
     - TYPO3_DATABASE_USERNAME="root"
     - TYPO3_DATABASE_PASSWORD=""
-    - EXT_SOLR_VERSION="dev-release-9.0.x"
+    - EXT_SOLR_VERSION="dev-release-11.0.x"
 
   matrix:
-    - TYPO3_VERSION="^8.7.0"
     - TYPO3_VERSION="^9.5.0"
+    - TYPO3_VERSION="^10.4.0"
 
 matrix:
   fast_finish: true
-  exclude:
-    - php: 7.0
-      env: TYPO3_VERSION="^9.5.0"
-    - php: 7.1
-      env: TYPO3_VERSION="^9.5.0"
 
 before_install:
   - composer self-update
   - composer --version
-  # resources for solr
-  - sudo update-java-alternatives -s java-8-oracle
 
 install:
   - Build/Test/bootstrap.sh
