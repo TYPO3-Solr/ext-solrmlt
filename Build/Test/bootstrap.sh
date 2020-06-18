@@ -53,12 +53,7 @@ echo "Using extension path $EXTENSION_ROOTPATH"
 echo "Using package path $TYPO3_PATH_PACKAGES"
 echo "Using web path $TYPO3_PATH_WEB"
 
-composer require --dev typo3/cms-core="$TYPO3_VERSION"
-composer require --dev typo3/cms-extbase="$TYPO3_VERSION"
-composer require --dev typo3/cms-frontend="$TYPO3_VERSION"
-composer require --dev typo3/cms-fluid="$TYPO3_VERSION"
-composer require --dev typo3/cms-tstemplate="$TYPO3_VERSION"
-composer require --dev --prefer-source apache-solr-for-typo3/solr="$EXT_SOLR_VERSION"
+composer require --dev --prefer-source typo3/cms-core="$TYPO3_VERSION" typo3/cms-extbase="$TYPO3_VERSION" typo3/cms-frontend="$TYPO3_VERSION" typo3/cms-fluid="$TYPO3_VERSION" typo3/cms-tstemplate="$TYPO3_VERSION" apache-solr-for-typo3/solr="$EXT_SOLR_VERSION"
 
 # Restore composer.json
 git checkout composer.json
