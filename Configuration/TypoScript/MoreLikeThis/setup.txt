@@ -1,4 +1,1 @@
-plugin.tx_solr {
-	moreLikeThis {
-	}
-}
+@import 'EXT:solrmlt/Configuration/TypoScript/MoreLikeThis/setup.typoscript'
