@@ -44,7 +44,7 @@ class PluginConfiguration
      * PluginConfiguration constructor.
      * @param array $pluginData
      */
-    public function __construct($pluginData)
+    public function __construct(array $pluginData)
     {
         $this->pluginData = $pluginData;
     }
@@ -52,10 +52,10 @@ class PluginConfiguration
     /**
      * Returns the flexform value of the plugin that was passed as context plugin.
      *
-     * @param $fieldName
-     * @return NULL|string
+     * @param string $fieldName
+     * @return mixed
      */
-    protected function getFlexFormValueFromPluginContentObject($fieldName)
+    protected function getFlexFormValueFromPluginContentObject(string $fieldName)
     {
         return $this->pluginData[$fieldName];
     }
@@ -63,11 +63,11 @@ class PluginConfiguration
     /**
      * Returns the maximum items to be shown.
      *
-     * @return integer
+     * @return int
      */
-    public function getMaxItems()
+    public function getMaxItems(): int
     {
-        return $this->getFlexFormValueFromPluginContentObject('maxItems');
+        return (int)$this->getFlexFormValueFromPluginContentObject('maxItems');
     }
 
     /**
@@ -76,7 +76,7 @@ class PluginConfiguration
      * @see Configuration/FlexForms/MoreLikeThis.xml//queryStringCreationType
      * @return NULL|string
      */
-    public function getQueryStringCreationType()
+    public function getQueryStringCreationType(): ?string
     {
         return $this->getFlexFormValueFromPluginContentObject('queryStringCreationType');
     }
@@ -88,7 +88,7 @@ class PluginConfiguration
      *
      * @return array
      */
-    public function getSimilarityFields()
+    public function getSimilarityFields(): array
     {
         return GeneralUtility::trimExplode(
             ',',
@@ -102,11 +102,11 @@ class PluginConfiguration
      *
      * Used to fill: 'mlt.mintf'
      *
-     * @return string
+     * @return int
      */
-    public function getMinTermFrequency()
+    public function getMinTermFrequency(): int
     {
-        return $this->getFlexFormValueFromPluginContentObject('minTermFrequency');
+        return (int)$this->getFlexFormValueFromPluginContentObject('minTermFrequency');
     }
 
     /**
@@ -115,11 +115,11 @@ class PluginConfiguration
      *
      * Used to fill: 'mlt.mindf'
      *
-     * @return string
+     * @return int
      */
-    public function getMinDocumentFrequency()
+    public function getMinDocumentFrequency(): int
     {
-        return $this->getFlexFormValueFromPluginContentObject('minDocumentFrequency');
+        return (int)$this->getFlexFormValueFromPluginContentObject('minDocumentFrequency');
     }
 
     /**
@@ -127,11 +127,11 @@ class PluginConfiguration
      *
      * Used to fill: 'mlt.minwl'
      *
-     * @return string
+     * @return int
      */
-    public function getMinWordLength()
+    public function getMinWordLength(): int
     {
-        return $this->getFlexFormValueFromPluginContentObject('minWordLength');
+        return (int)$this->getFlexFormValueFromPluginContentObject('minWordLength');
     }
 
     /**
@@ -139,11 +139,11 @@ class PluginConfiguration
      *
      * Used to fill: 'mlt.maxwl'
      *
-     * @return string
+     * @return int
      */
-    public function getMaxWordLength()
+    public function getMaxWordLength(): int
     {
-        return $this->getFlexFormValueFromPluginContentObject('maxWordLength');
+        return (int)$this->getFlexFormValueFromPluginContentObject('maxWordLength');
     }
 
     /**
@@ -151,10 +151,10 @@ class PluginConfiguration
      *
      * Used to fill: 'mlt.maxqt'
      *
-     * @return string
+     * @return int
      */
-    public function getMaxQueryTerms()
+    public function getMaxQueryTerms(): int
     {
-        return $this->getFlexFormValueFromPluginContentObject('maxQueryTerms');
+        return (int)$this->getFlexFormValueFromPluginContentObject('maxQueryTerms');
     }
 }
