@@ -14,7 +14,7 @@
 		solr
 
 	:Version:
-		3.1.0-dev
+		10.0.0
 
 	:Language:
 		en
@@ -26,7 +26,7 @@
 		search, full text, index, solr, lucene, fast, query, results
 
 	:Copyright:
-		2009-2020
+		2009-2021
 
 	:Author:
 		Ingo Renner, Timo Hund
