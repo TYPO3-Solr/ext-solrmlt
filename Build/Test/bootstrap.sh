@@ -53,13 +53,34 @@ echo "Using extension path $EXTENSION_ROOTPATH"
 echo "Using package path $TYPO3_PATH_PACKAGES"
 echo "Using web path $TYPO3_PATH_WEB"
 
-composer require --dev --prefer-source typo3/cms-core="$TYPO3_VERSION" typo3/cms-extbase="$TYPO3_VERSION" typo3/cms-frontend="$TYPO3_VERSION" typo3/cms-fluid="$TYPO3_VERSION" typo3/cms-tstemplate="$TYPO3_VERSION" apache-solr-for-typo3/solr="$EXT_SOLR_VERSION"
+if [[ $TYPO3_VERSION = *"dev"* ]]; then
+    composer config minimum-stability dev
+fi
+
+if ! composer require --dev --update-with-dependencies --prefer-source --no-interaction \
+  typo3/cms-core="$TYPO3_VERSION" \
+  typo3/cms-extbase="$TYPO3_VERSION" \
+  typo3/cms-frontend="$TYPO3_VERSION" \
+  typo3/cms-fluid="$TYPO3_VERSION" \
+  typo3/cms-tstemplate="$TYPO3_VERSION" \
+  apache-solr-for-typo3/solr="$EXT_SOLR_VERSION"
+then
+  echo "The test environment could not be installed by composer as expected. Please fix this issue."
+  exit 1
+fi
 
 # Restore composer.json
 git checkout composer.json
 
 mkdir -p $TYPO3_PATH_WEB/uploads $TYPO3_PATH_WEB/typo3temp
 
-# Setup Solr using install script
-chmod u+x ${TYPO3_PATH_WEB}/typo3conf/ext/solr/Resources/Private/Install/install-solr.sh
-${TYPO3_PATH_WEB}/typo3conf/ext/solr/Resources/Private/Install/install-solr.sh -d "$HOME/solr" -t
+if [[ $* != *--skip-solr-install* ]]; then
+  # Setup Solr Using our install script
+  echo "Setup Solr Using our install script: "
+  chmod u+x ${TYPO3_PATH_WEB}/typo3conf/ext/solr/Resources/Private/Install/install-solr.sh
+  if ! ${TYPO3_PATH_WEB}/typo3conf/ext/solr/Resources/Private/Install/install-solr.sh -d "$HOME/solr" -t
+  then
+    echo "Apache Solr server could not be installed or started. Please fix this issue."
+    exit 1
+  fi
+fi

@@ -4,10 +4,10 @@
 
 ---
 conf.py:
-  copyright: 2009-2020
+  copyright: 2009-2021
   project: Apache Solr for TYPO3 - Solrmlt - Display related content from solr
-  version: 3.1.0-dev
-  release: 3.1.0-dev
+  version: 10.0.0
+  release: 10.0.0
   extensions:
     - sphinx.ext.intersphinx
     - t3sphinx.ext.t3extras

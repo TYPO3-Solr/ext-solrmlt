@@ -31,7 +31,6 @@ use ApacheSolrForTypo3\Solr\Domain\Site\SiteRepository;
 use ApacheSolrForTypo3\Solrmlt\Configuration\PluginConfiguration;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
-use TYPO3\CMS\Frontend\Plugin\AbstractPlugin;
 
 /**
  * Builder class responsible to build an initialized more like this query.
