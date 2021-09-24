@@ -19,6 +19,7 @@ use ApacheSolrForTypo3\Solr\Search;
 use ApacheSolrForTypo3\Solr\System\Solr\Document\Document;
 use ApacheSolrForTypo3\Solrmlt\Configuration\PluginConfiguration;
 use ApacheSolrForTypo3\Solrmlt\Query\Builder;
+use Exception;
 use TYPO3\CMS\Core\Context\Context;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface;
@@ -61,7 +62,7 @@ class MoreLikeThisController extends ActionController
     private $contentObjectRenderer;
 
     /**
-     * @param \TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface $configurationManager
+     * @param ConfigurationManagerInterface $configurationManager
      * @return void
      */
     public function injectConfigurationManager(ConfigurationManagerInterface $configurationManager)
@@ -73,7 +74,7 @@ class MoreLikeThisController extends ActionController
     /**
      * @return PluginConfiguration
      */
-    protected function getPluginConfiguration()
+    protected function getPluginConfiguration(): PluginConfiguration
     {
         if ($this->pluginConfiguration == null) {
             $flexFormData = $this->contentObjectRenderer->data['pi_flexform'];
@@ -88,7 +89,7 @@ class MoreLikeThisController extends ActionController
     /**
      * @return TypoScriptFrontendController
      */
-    protected function getTSFE()
+    protected function getTSFE(): TypoScriptFrontendController
     {
         if ($this->typoScriptFrontendController == null) {
             $this->typoScriptFrontendController = $GLOBALS['TSFE'];
@@ -100,7 +101,7 @@ class MoreLikeThisController extends ActionController
     /**
      * @return Builder
      */
-    protected function getQueryBuilder()
+    protected function getQueryBuilder(): Builder
     {
         $this->queryBuilder = $this->queryBuilder ?? GeneralUtility::makeInstance(Builder::class);
         return $this->queryBuilder;
@@ -109,10 +110,10 @@ class MoreLikeThisController extends ActionController
     /**
      * @return Search
      */
-    protected function getSearch()
+    protected function getSearch(): Search
     {
         if ($this->search === null) {
-            /** @var \ApacheSolrForTypo3\Solr\ConnectionManager $solrConnection */
+            /** @var ConnectionManager $solrConnection */
             $typoScriptFrontendController = $GLOBALS['TSFE'];
             $context = GeneralUtility::makeInstance(Context::class);
             $languageUid = (int)$context->getPropertyFromAspect('language', 'id');
@@ -127,6 +128,7 @@ class MoreLikeThisController extends ActionController
      * Shows the results of the configured more like this query.
      *
      * @return void
+     * @throws Exception
      */
     public function indexAction()
     {

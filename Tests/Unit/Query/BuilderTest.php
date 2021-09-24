@@ -48,7 +48,12 @@ class BuilderTest extends UnitTest
      */
     public function setUp()
     {
-        $this->builder = $this->getMockBuilder(Builder::class)->setMethods(['getSiteHashFilterForTSFE'])->getMock();
+        $this->builder = $this->getMockBuilder(Builder::class)
+            ->setMethods(
+                [
+                    'getSiteHashFilterForTSFE'
+                ]
+            )->getMock();
     }
 
     /**
@@ -57,13 +62,39 @@ class BuilderTest extends UnitTest
     public function canSetTheQueryStringFromPageTitle()
     {
         // we avoid the usage of the Sites::getSiteByPageId()->getDomain call an return a fake domain in our testcase
-        $this->builder->expects($this->once())->method('getSiteHashFilterForTSFE')->will($this->returnValue('siteHash:localhost'));
+        $this->builder
+            ->expects($this->once())
+            ->method('getSiteHashFilterForTSFE')
+            ->will($this->returnValue('siteHash:localhost'));
 
         $configurationMock = $this->getDumbMock(PluginConfiguration::class);
-        $configurationMock->expects($this->once())->method('getSimilarityFields')->will($this->returnValue(array('content')));
+        $configurationMock
+            ->expects($this->once())
+            ->method('getSimilarityFields')
+            ->will($this->returnValue(['content']));
+        $configurationMock
+            ->expects($this->once())
+            ->method('getMinTermFrequency')
+            ->will($this->returnValue(7));
+        $configurationMock
+            ->expects($this->once())
+            ->method('getMinDocumentFrequency')
+            ->will($this->returnValue(7));
+        $configurationMock
+            ->expects($this->once())
+            ->method('getMinWordLength')
+            ->will($this->returnValue(7));
+        $configurationMock
+            ->expects($this->once())
+            ->method('getMaxWordLength')
+            ->will($this->returnValue(7));
+        $configurationMock
+            ->expects($this->once())
+            ->method('getMaxQueryTerms')
+            ->will($this->returnValue(7));
 
         $tsfeMock = $this->getDumbMock(TypoScriptFrontendController::class);
-        $tsfeMock->page = array('title' => 'fake page title');
+        $tsfeMock->page = ['title' => 'fake page title'];
 
         $query = $this->builder->build($configurationMock, $tsfeMock);
         $this->assertSame('fake page title', $query->getQuery(), 'Querybuilder did not assign expected querystring');
