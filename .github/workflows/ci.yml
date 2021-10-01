@@ -2,11 +2,11 @@ name: build
 
 on:
   push:
-    branches: [ master ]
+    branches: [ master, release-10.0.x ]
     tags:
       - "**"
   pull_request:
-    branches: [ master ]
+    branches: [ master, release-10.0.x ]
 
 env:
   EXT_SOLR_VERSION: 'dev-release-11.1.x'
@@ -28,10 +28,8 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-#        PHP: [ '7.2', '7.3', '7.4' ]
-#        TYPO3: [ '^10.4', '10.4.x-dev' ]
-        PHP: [ '7.4' ]
-        TYPO3: [ '10.4.x-dev' ]
+        PHP: [ '7.2', '7.3', '7.4' ]
+        TYPO3: [ '^10.4', '10.4.x-dev' ]
     env:
       TYPO3_VERSION: ${{ matrix.TYPO3 }}
 
@@ -91,13 +89,13 @@ jobs:
           ./Build/Test/cibuild.sh
           echo "Current Size of EXT:solrmlt build Artefacts: " && du -sh $CI_BUILD_DIRECTORY/ && du -sh $CI_BUILD_DIRECTORY/ext-solrmlt/.Build/*
 
-      - name: Upload code coverage to Scrutinizer
-        run: |
-          cd $CI_BUILD_DIRECTORY/ext-solrmlt
-          mkdir -p $GITHUB_WORKSPACE/bin
-          wget https://scrutinizer-ci.com/ocular.phar -O $GITHUB_WORKSPACE/bin/ocular && chmod +x $GITHUB_WORKSPACE/bin/ocular
-          php $GITHUB_WORKSPACE/bin/ocular code-coverage:upload --format=php-clover coverage.unit.clover
-          [ -f coverage.integration.clover ] && php $GITHUB_WORKSPACE/bin/ocular code-coverage:upload --format=php-clover coverage.integration.clover
+#      - name: Upload code coverage to Scrutinizer
+#        run: |
+#          cd $CI_BUILD_DIRECTORY/ext-solrmlt
+#          mkdir -p $GITHUB_WORKSPACE/bin
+#          wget https://scrutinizer-ci.com/ocular.phar -O $GITHUB_WORKSPACE/bin/ocular && chmod +x $GITHUB_WORKSPACE/bin/ocular
+#          php $GITHUB_WORKSPACE/bin/ocular code-coverage:upload --format=php-clover coverage.unit.clover
+#          [ -f coverage.integration.clover ] && php $GITHUB_WORKSPACE/bin/ocular code-coverage:upload --format=php-clover coverage.integration.clover
 
   publish:
     name: Publish new version to TER

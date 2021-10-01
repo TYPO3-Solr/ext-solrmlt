@@ -119,9 +119,9 @@ class Builder
      * @param TypoScriptFrontendController $TSFE
      * @return string
      */
-    protected function getSiteHashFilterForTSFE(TypoScriptFrontendController $TSFE)
+    protected function getSiteHashFilterForTSFE(TypoScriptFrontendController $TSFE): string
     {
-            /** @var $siteRepository SiteRepository */
+        /* @var SiteRepository $siteRepository */
         $siteRepository = GeneralUtility::makeInstance(SiteRepository::class);
         return "siteHash:".$siteRepository->getSiteByPageId($TSFE->id)->getSiteHash();
     }
