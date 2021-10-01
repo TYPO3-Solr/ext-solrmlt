@@ -2,11 +2,11 @@ name: build
 
 on:
   push:
-    branches: [ master ]
+    branches: [ master, release-10.0.x ]
     tags:
       - "**"
   pull_request:
-    branches: [ master ]
+    branches: [ master, release-10.0.x ]
 
 env:
   EXT_SOLR_VERSION: 'dev-release-11.1.x'
@@ -28,10 +28,8 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-#        PHP: [ '7.2', '7.3', '7.4' ]
-#        TYPO3: [ '^10.4', '10.4.x-dev' ]
-        PHP: [ '7.4' ]
-        TYPO3: [ '10.4.x-dev' ]
+        PHP: [ '7.2', '7.3', '7.4' ]
+        TYPO3: [ '^10.4', '10.4.x-dev' ]
     env:
       TYPO3_VERSION: ${{ matrix.TYPO3 }}
 
